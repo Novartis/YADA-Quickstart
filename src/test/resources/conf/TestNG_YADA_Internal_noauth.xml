@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <suite name="Suite" parallel="methods" thread-count="20" data-provider-thread-count="20" 
+  > -->
+<suite name="http-noauth-suite" parallel="false" preserve-order="true">
+  <parameter name="properties" value="/conf/TestNG_YADA_Internal_noauth.properties" />
+  <test enabled="true" name="HTTP_yada_host">
+    <groups>
+      <run>
+        <!-- <include name="core"/> -->
+        <include name="internal" />
+      </run>
+    </groups>
+    <classes>
+      <class name="com.novartis.opensource.yada.test.ConnectionFactoryTest" />
+      <class name="com.novartis.opensource.yada.test.InternalServiceTest">
+        <methods>
+          <!-- it's necessary to use the includes here so the tests in the 
+            superclass ServiceTest are excluded. -->
+          <method>
+            <!-- Uncomment the http tests if you want to run these integration 
+              tests in your environment. This is worthwhile. They are commented out by 
+              default to save you from a deluge of data you might not expect the first 
+              time you run the tests. -->
+            <!-- <include name="testWithHttpGet"/> --> 
+            <!-- <include name="testWithHttpPost"/> -->
+            <include name="testInternal" />
+          </method>
+        </methods>
+      </class>
+    </classes>
+  </test>
+
+</suite> <!-- Suite -->

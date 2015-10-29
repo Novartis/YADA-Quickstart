@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor 
+  license agreements. See the NOTICE file distributed with this work for additional 
+  information regarding copyright ownership. The ASF licenses this file to 
+  You under the Apache License, Version 2.0 (the "License"); you may not use 
+  this file except in compliance with the License. You may obtain a copy of 
+  the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+  by applicable law or agreed to in writing, software distributed under the 
+  License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+  OF ANY KIND, either express or implied. See the License for the specific 
+  language governing permissions and limitations under the License. -->
+<!-- The contents of this file will be loaded for each web application -->
+<Context>
+  <!-- 'yada-version' is referenced by the format package to embed it in json and xml results -->
+  <Environment name="yada_version" override="false" type="java.lang.String" value="${display.version}" />
+  
+  <!-- 'app_home' is referenced directly by the com.novartis.opensource.yada.util.FileUtils.class. 
+       The same value is also, by default, referenced by a number of the following variables.  
+       These can, of course, be modified -->
+  <Environment name="app_home" override="false" type="java.lang.String" value="${app.home}" />
+  
+  <!-- 'yada_home' is referenced by the com.novartis.opensource.yada.util.XMLUtils.class -->
+  <Environment name="yada_home" override="false" type="java.lang.String" value="${app.home}/tomcat/webapps/ROOT" />
+  
+  <!-- 'yada_bin' is referenced by both the com.novartis.opensource.yada.adaptor.SOAPAdaptor, as well
+       as the Script Plugin API -->
+  <Environment name="yada_bin" override="false" type="java.lang.String" value="${app.home}/bin/" />
+  
+  <!-- 'yada_util' is referenced by the com.novartis.opensource.yada.plugin.XSLPostprocesor.class -->
+  <Environment name="yada_util" override="false" type="java.lang.String" value="${app.home}/tomcat/webapps/ROOT/util/" />
+  
+  <!-- 'io/out' is used extensively by the i/o package for file retrieval -->
+  <Environment name="io/out" override="false" type="java.lang.String" value="${out.base}" />
+  
+  <!-- 'io/in'  is used extensively by the i/o package for file uploads and writing -->
+  <Environment name="io/in" override="false" type="java.lang.String" value="${in.base}" />
+  
+  <!-- Data source adaptors -->
+  <Environment name="adaptor/org.sqlite.JDBC"           override="false" type="java.lang.String" value="com.novartis.opensource.yada.adaptor.SQLiteAdaptor" />
+  <Environment name="adaptor/oracle.jdbc.OracleDriver"  override="false" type="java.lang.String" value="com.novartis.opensource.yada.adaptor.OracleAdaptor" />
+  <Environment name="adaptor/com.mysql.jdbc.Driver"     override="false" type="java.lang.String" value="com.novartis.opensource.yada.adaptor.MySQLAdaptor" />
+  <Environment name="adaptor/org.postgresql.Driver"     override="false" type="java.lang.String" value="com.novartis.opensource.yada.adaptor.PostgreSQLAdaptor" />
+  <Environment name="adaptor/com.vertica.jdbc.Driver"   override="false" type="java.lang.String" value="com.novartis.opensource.yada.adaptor.VerticaAdaptor" />
+  <Environment name="adaptor/SOAP"                      override="false" type="java.lang.String" value="com.novartis.opensource.yada.adaptor.SoapAdaptor" />
+  <Environment name="adaptor/com.microsoft.sqlserver.jdbc.SQLServerDriver" override="false" type="java.lang.String" value="com.novartis.opensource.yada.adaptor.SQLServerAdaptor" />
+
+  <!-- YADA index resource configuration -->
+  <Resource name="jdbc/yada" 
+              auth="Container" 
+              type="javax.sql.DataSource" 
+              driverClassName="${YADA.index.driverClassName}" 
+              defaultAutoCommit="false" 
+              maxActive="100" 
+              maxIdle="30" 
+              maxWait="-1" 
+              removeAbandoned="true" 
+              removeAbandonedTimeout="600" 
+              validationQuery="${YADA.index.validationQuery}"
+              testOnBorrow="true" 
+              testWhileIdle="true"
+              username="${YADA.index.username}" 
+              password="${YADA.index.password}" 
+              url="${YADA.index.url}" 
+  />
+  
+  <!-- Example resource configuration using values from
+    build.properties.  You can derive any of these attributes from
+    the properties file. -->
+  <!-- 
+  <Resource name="jdbc/yada" 
+              auth="Container" 
+              type="javax.sql.DataSource" 
+              driverClassName="${MYSCHEMA.index.driverClassName}" 
+              defaultAutoCommit="false" 
+              maxActive="100" 
+              maxIdle="30" 
+              maxWait="-1" 
+              removeAbandoned="true" 
+              removeAbandonedTimeout="600" 
+              validationQuery="${MYSCHEMA.index.validationQuery}"
+              testOnBorrow="true" 
+              testWhileIdle="true"
+              username="${MYSCHEMA.index.username}" 
+              password="${MYSCHEMA.index.password}" 
+              url="${MYSCHEMA.index.url}" 
+  />
+  -->
+  
+  <!-- Mail resource -->
+  <Resource name="mail/Session" auth="Container" type="javax.mail.Session"
+    mail.smtp.host="localhost" mail.debug="true" />
+
+  <!-- Default set of monitored resources -->
+  <WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+</Context>

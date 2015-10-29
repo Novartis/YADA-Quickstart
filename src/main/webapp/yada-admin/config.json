@@ -1,0 +1,9 @@
+{
+  "context"    : "${project.build.finalName}",
+  "domain"     : "",
+  "loggedUser" : "",
+  "yadaDev"    : "",
+  "yadaTest"   : "",
+  "yadaLoad"   : "",
+  "yadaProd"   : ""
+}

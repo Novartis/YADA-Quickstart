@@ -1,0 +1,1 @@
+q=YADA test SELECT VARCHAR with INS&p=A,B,Z
