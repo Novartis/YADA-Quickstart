@@ -19,7 +19,7 @@ import com.novartis.opensource.yada.format.YADAResponseException;
  * the superclass {@link com.novartis.opensource.yada.test.ServiceTest} for more
  * examples.
  * 
- * @author varonda1
+ * @author David Varon
  * 
  */
 public class InternalServiceTest extends ServiceTest {
