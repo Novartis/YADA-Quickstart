@@ -1,4 +1,4 @@
--- List of test queries
+﻿-- List of test queries
 -- select 'INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('''||qname||''','''||replace(query,'''','''''')||''',''YADABOT'');' from yada_query where app = 'YADA' and qname like 'YADA test%' and qname not in ('YADA test query','YADA test two','YADA testy testy testy') order by qname;
 
 DELETE from YADA_QUERY where app = 'YADA' and qname like 'YADA test%' and qname not in ('YADA test query','YADA test two','YADA testy testy testy');
@@ -89,3 +89,8 @@ INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADAFSIN test appen
 INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADAFSIN test read dir','/?v','YADABOT','YADAFSIN');
 -- will return the content of 'io/in/?v'
 INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADAFSIN test read content','/?v','YADABOT','YADAFSIN');
+
+-- Harmony Map tests
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA test harmony map 1','select col1,col2,col3 from YADA_TEST','YADABOT','YADA');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA test harmony map 2','select col1,col4,col5 from YADA_TEST','YADABOT','YADA');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA test harmony map 3','select col1,col5 from YADA_TEST','YADABOT','YADA');
