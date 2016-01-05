@@ -13,7 +13,7 @@
     dependencies' versions are configured to equal ${project.version}, so if 
     the actual ${project.version} value is changed below, the dependency configs 
     will need to be adjusted accordingly. -->
-  <version>6.1.0</version>
+  <version>6.1.1</version>
 
   <packaging>war</packaging>
 
@@ -245,6 +245,47 @@
       should append or overwrite the artifacts in yada-war. This is how you customize 
       the 'yada-admin' tool, for example. -->
     <plugins>
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>2.11</version>
+        <configuration>
+          <header>${basedir}/src/main/resources/license.txt</header>
+          <useDefaultExcludes>true</useDefaultExcludes>
+          <properties>
+            <year>2015</year>
+          </properties>
+          <includes>
+            <include>**/*.java</include>
+            <include>**/*.xml</include>
+            <include>**/*.xsl</include>
+            <include>**/*.pl</include>
+            <include>**/*.js</include>
+            <include>**/*.html</include>
+            <include>**/*.css</include>
+            <include>**/*.jsp</include>
+          </includes>
+          <excludes>
+            <exclude>pom.xml</exclude>
+            <exclude>target/**</exclude>
+            <exclude>src/site/**</exclude>
+            <exclude>src/test/resources/conf/**</exclude>
+            <exclude>src/test/resources/test/**</exclude>
+            <exclude>src/main/resources/dev/tomcat-users.xml</exclude>
+            <exclude>src/main/resources/conf/**</exclude>
+            <exclude>src/main/webapp/META-INF/**</exclude>
+            <exclude>src/main/webapp/WEB-INF/**</exclude>
+            <exclude>src/main/webapp/yada-admin/lib/**</exclude>
+          </excludes>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
