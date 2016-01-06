@@ -16,7 +16,10 @@
   <version>6.1.1</version>
 
   <packaging>war</packaging>
-
+  
+  <!-- Year of current version -->
+  <inceptionYear>2016</inceptionYear>
+  
   <!-- Use any name that is meaningful in your environment -->
   <name>YADA-Quickstart</name>
 
@@ -253,7 +256,7 @@
           <header>${basedir}/src/main/resources/license.txt</header>
           <useDefaultExcludes>true</useDefaultExcludes>
           <properties>
-            <year>2015</year>
+            <year>${project.inceptionYear}</year>
           </properties>
           <includes>
             <include>**/*.java</include>
