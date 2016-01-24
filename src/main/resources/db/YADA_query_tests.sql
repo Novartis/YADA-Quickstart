@@ -94,3 +94,14 @@ INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADAFSIN test read 
 INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA test harmony map 1','select col1,col2,col3 from YADA_TEST','YADABOT','YADA');
 INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA test harmony map 2','select col1,col4,col5 from YADA_TEST','YADABOT','YADA');
 INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA test harmony map 3','select col1,col5 from YADA_TEST','YADABOT','YADA');
+
+-- Join tests
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA test SELECT JOIN A','select col1,col2,col3 from YADA_TEST','YADABOT','YADA');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA test SELECT JOIN B','select col1,col4,col5 from YADA_TEST','YADABOT','YADA');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA test SELECT JOIN C','select col1,col2,col3,col4,col5 from YADA_TEST where col1=?v','YADABOT','YADA');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA test SELECT JOIN D1','select col1,col2 from YADA_TEST','YADABOT','YADA');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA test SELECT JOIN D2','select col2,col3 from YADA_TEST','YADABOT','YADA');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA test SELECT JOIN D3','select col3,col4,col5 from YADA_TEST','YADABOT','YADA');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA test SELECT JOIN E1','select col1,col2 from YADA_TEST where col1=?v','YADABOT','YADA');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA test SELECT JOIN E2','select col2,col3 from YADA_TEST where col2=?v','YADABOT','YADA');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA test SELECT JOIN E3','select col3,col4,col5 from YADA_TEST where col3=?v','YADABOT','YADA');
