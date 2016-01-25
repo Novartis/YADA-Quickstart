@@ -3,4 +3,4 @@
     <img src="https://github.com/Novartis/YADA/blob/master/src/site/resources/images/blox250.png"/>
 </div> 
 YADA-Quickstart is a basically just drop-in warfile to help expedite initial configuration. 
-See https://github.com/Novartis/YADA for all documentation.
+See https://github.com/Novartis/YADA for all documentation, in particular the [Quickstart/Deployment Guide](https://github.com/Novartis/YADA/blob/master/src/site/markdown/deployment.md)
