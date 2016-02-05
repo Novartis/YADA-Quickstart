@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <!-- Use any name that is meaningful in your environment -->
-  <groupId>yada</groupId>
+  <groupId>com.novartis.opensource</groupId>
 
   <!-- Use any name that is meaningful in your environment -->
   <artifactId>YADA-Quickstart</artifactId>
@@ -13,9 +13,44 @@
     dependencies' versions are configured to equal ${project.version}, so if 
     the actual ${project.version} value is changed below, the dependency configs 
     will need to be adjusted accordingly. -->
-  <version>6.2.0</version>
+  <version>6.2.1</version>
 
   <packaging>war</packaging>
+  
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+  
+  <organization>
+   <name>Novartis Institutes for BioMedical Research, Inc</name>
+   <url>http://opensource.nibr.com</url>
+  </organization>
+  
+  <distributionManagement>
+    <site>
+      <id>yada.site</id>
+      <name>YADA site</name>
+      <url>${distribution.site.url}</url>
+    </site>
+  </distributionManagement>
+  
+  <developers>
+   <developer>
+     <name>David Varon</name>
+     <email>varontron@gmail.com</email>
+     <organization>Novartis Institutes for BioMedical Research</organization>
+     <organizationUrl>http://opensource.nibr.com</organizationUrl>
+   </developer>
+  </developers>
+  
+  <scm>
+    <connection>scm:git:git@github.com:Novartis/YADA.git</connection>
+    <developerConnection>scm:git:git@Novartis/YADA.git</developerConnection>
+    <url>git@github.com:Novartis/YADA.git</url>
+  </scm>
   
   <!-- Year of current version -->
   <inceptionYear>2016</inceptionYear>
