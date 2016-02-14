@@ -13,7 +13,7 @@
     dependencies' versions are configured to equal ${project.version}, so if 
     the actual ${project.version} value is changed below, the dependency configs 
     will need to be adjusted accordingly. -->
-  <version>6.2.1</version>
+  <version>6.2.2</version>
 
   <packaging>war</packaging>
   
@@ -47,9 +47,9 @@
   </developers>
   
   <scm>
-    <connection>scm:git:git@github.com:Novartis/YADA.git</connection>
-    <developerConnection>scm:git:git@Novartis/YADA.git</developerConnection>
-    <url>git@github.com:Novartis/YADA.git</url>
+    <connection>scm:git:ssh:git@github.com:Novartis/YADA-Quickstart.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/Novartis/YADA-Quickstart.git</developerConnection>
+    <url>scm:git:ssh://github.com/Novartis/YADA-Quickstart</url>
   </scm>
   
   <!-- Year of current version -->
