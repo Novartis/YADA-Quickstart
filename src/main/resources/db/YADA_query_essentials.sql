@@ -10,7 +10,7 @@ INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA delete query',
 INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA dummy','select qname as "QNAME" from yada_query where qname = ''YADA dummy'' ','YADABOT','YADA');
 INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA insert default param','insert into YADA_PARAMS (target, name, value, rule) values (?v,?v,?v,?i)','YADABOT','YADA');
 INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA insert usage log','insert into yada_usage_log (userid, href, action, note, id) values (?v, ?v, ?v, ?v, yada_usage_log_seq.nextval)','YADABOT','YADA');
-INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA new query','insert into yada_query (app,qname,query,created_by,modified_by) values (?v,?v,?v,?v,?v)','YADABOT','YADA');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA new query','insert into yada_query (app,qname,query,created_by,modified_by,created,modified,access_count,comments) values (?v,?v,?v,?v,?v,?t,?t,?i,?v)','YADABOT','YADA');
 INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA queries','select a.qname as "QNAME", 
 a.query as "QUERY", 
 a.app as "APP", 
@@ -73,4 +73,5 @@ INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA select tests',
 where qname like ''YADA test%''
   and  (qname like ''%INSERT%'' or qname like ''%UPDATE%'' or qname like ''%SELECT%'')','YADABOT','YADA');
 INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA update default param','update yada_params set value = ?v, rule = ?i where target = ?v and name = ?v','YADABOT','YADA');
-INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA update query','update yada_query set qname=?v, query=?v, modified_by=?v, modified=?t where qname=?v and app=?v','YADABOT','YADA');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA update query','update yada_query set qname=?v, query=?v, modified_by=?v, modified=?t, comments=?v where qname=?v and app=?v','YADABOT','YADA');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADA check uniqueness','select count(qname) as count from yada_query where qname = ?v','YADABOT','YADA');
