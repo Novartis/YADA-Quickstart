@@ -13,9 +13,11 @@
     dependencies' versions are configured to equal ${project.version}, so if 
     the actual ${project.version} value is changed below, the dependency configs 
     will need to be adjusted accordingly. -->
-  <version>7.1.0</version>
+  <version>7.1.1</version>
 
   <packaging>war</packaging>
+  
+  <url>http://opensource.nibr.com/yada</url>
   
   <licenses>
     <license>
@@ -35,6 +37,14 @@
       <name>YADA site</name>
       <url>${distribution.site.url}</url>
     </site>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
   </distributionManagement>
   
   <developers>
@@ -517,6 +527,23 @@
           <skip>true</skip>
         </configuration>
       </plugin>
+      
+      <!--  for sonatype release to maven central -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
     </plugins>
   </build>
 
