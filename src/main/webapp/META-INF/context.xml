@@ -44,47 +44,6 @@
   <Environment name="adaptor/SOAP"                      override="false" type="java.lang.String" value="com.novartis.opensource.yada.adaptor.SoapAdaptor" />
   <Environment name="adaptor/com.microsoft.sqlserver.jdbc.SQLServerDriver" override="false" type="java.lang.String" value="com.novartis.opensource.yada.adaptor.SQLServerAdaptor" />
 
-  <!-- YADA index resource configuration -->
-  <Resource name="jdbc/yada" 
-              auth="Container" 
-              type="javax.sql.DataSource" 
-              driverClassName="${YADA.index.driverClassName}" 
-              defaultAutoCommit="false" 
-              maxActive="100" 
-              maxIdle="30" 
-              maxWait="-1" 
-              removeAbandoned="true" 
-              removeAbandonedTimeout="600" 
-              validationQuery="${YADA.index.validationQuery}"
-              testOnBorrow="true" 
-              testWhileIdle="true"
-              username="${YADA.index.username}" 
-              password="${YADA.index.password}" 
-              url="${YADA.index.url}" 
-  />
-  
-  <!-- Example resource configuration using values from
-    build.properties.  You can derive any of these attributes from
-    the properties file. -->
-  <!-- 
-  <Resource name="jdbc/yada" 
-              auth="Container" 
-              type="javax.sql.DataSource" 
-              driverClassName="${MYSCHEMA.index.driverClassName}" 
-              defaultAutoCommit="false" 
-              maxActive="100" 
-              maxIdle="30" 
-              maxWait="-1" 
-              removeAbandoned="true" 
-              removeAbandonedTimeout="600" 
-              validationQuery="${MYSCHEMA.index.validationQuery}"
-              testOnBorrow="true" 
-              testWhileIdle="true"
-              username="${MYSCHEMA.index.username}" 
-              password="${MYSCHEMA.index.password}" 
-              url="${MYSCHEMA.index.url}" 
-  />
-  -->
   
   <!-- Mail resource -->
   <Resource name="mail/Session" auth="Container" type="javax.mail.Session"

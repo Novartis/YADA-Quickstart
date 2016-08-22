@@ -13,7 +13,7 @@
     dependencies' versions are configured to equal ${project.version}, so if 
     the actual ${project.version} value is changed below, the dependency configs 
     will need to be adjusted accordingly. -->
-  <version>7.1.4</version>
+  <version>8.0.0-SNAPSHOT</version>
 
   <packaging>war</packaging>
   
@@ -256,6 +256,7 @@
         <filtering>true</filtering>
         <includes>
           <include>log4j.properties</include>
+          <include>YADA.properties</include>
         </includes>
       </resource>
       <!-- filter the deployment script for the designated environment. the 
