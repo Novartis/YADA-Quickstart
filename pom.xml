@@ -13,7 +13,7 @@
     dependencies' versions are configured to equal ${project.version}, so if 
     the actual ${project.version} value is changed below, the dependency configs 
     will need to be adjusted accordingly. -->
-  <version>8.2.0</version>
+  <version>8.2.1</version>
 
   <packaging>war</packaging>
   
