@@ -13,11 +13,11 @@
     dependencies' versions are configured to equal ${project.version}, so if 
     the actual ${project.version} value is changed below, the dependency configs 
     will need to be adjusted accordingly. -->
-  <version>8.2.1</version>
+  <version>8.3.0</version>
 
   <packaging>war</packaging>
   
-  <url>http://opensource.nibr.com/yada</url>
+  <url>http://github.com/Novartis/YADA</url>
   
   <licenses>
     <license>
@@ -123,7 +123,70 @@
     properties and scripts may serve as guidelines for CI configuration. -->
 
   <profiles>
-
+    <!-- INSTALLER PROFILE -->
+    <!-- 'izpack' -->
+    <!-- builds the installer -->
+    <profile>
+      <id>izpack</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <env>izpack</env>
+        <!-- change to 'false' to enable cargo deployment -->
+        <skip.cargo.deploy>true</skip.cargo.deploy>
+        <skip.auth.test>true</skip.auth.test>
+      </properties>
+      <build>
+        <resources>
+          <resource>
+		        <directory>${basedir}/src/main/resources/izpack</directory>
+		        <targetPath>${project.build.directory}/izpack</targetPath>
+		        <filtering>true</filtering>
+		        <excludes>
+		          <exclude>*.zip</exclude>
+		          <exclude>*.png</exclude>
+		          <exclude>**/*.jar</exclude>
+		        </excludes>
+		      </resource>
+		      <resource>
+            <directory>${basedir}/src/main/resources/izpack</directory>
+            <targetPath>${project.build.directory}/izpack/scripts</targetPath>
+            <filtering>true</filtering>
+            <includes>
+              <include>launch.*</include>
+            </includes>
+          </resource>
+        </resources>
+	      <plugins>
+		      <plugin>
+		        <groupId>org.codehaus.mojo</groupId>
+		        <artifactId>exec-maven-plugin</artifactId>
+		        <configuration>
+		          <version>1.3.2</version>
+		          <executable>/bin/bash</executable>
+		          <arguments>
+		            <argument>/Applications/IzPack/bin/compile</argument>
+		            <argument>${project.build.directory}/izpack/install.xml</argument>
+		            <argument>-o ${project.build.directory}/${project.artifactId}-${display.version}.jar</argument>
+		          </arguments>
+		        </configuration>
+		        <executions>
+		          <execution>
+		            <id>build-installer</id>
+		            <phase>install</phase>
+		            <goals>
+		              <goal>exec</goal>
+		            </goals>
+		          </execution>
+		        </executions>
+		      </plugin> 
+	      </plugins>
+	    </build>
+    </profile>
+    <!-- DEPLOYMENT PROFILES -->
+    <!--   The remaining profiles are intended to be used after customizing the quickstart
+           for an internal deployment -->
     <!-- 'local' -->
     <!-- The 'local' profile is active by default. -->
     <!-- Remember that passing any other profile name to maven will override 
@@ -136,9 +199,6 @@
       and that it won't be behind your authentication gateway, so you'll just do 
       noauth, if any, testing. -->
     <profile>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
       <id>local</id>
       <properties>
         <env>local</env>
@@ -217,6 +277,44 @@
       <properties>
         <skip.war.deploy>false</skip.war.deploy>
       </properties>
+      <!-- If you choose to use the included deployment script for non-local 
+        environments, this is where it becomes relevant, to redeploy the war file 
+        via curl/psiprobe and restart Tomcat. -->
+      <!-- To deploy without testing, use 'pre-integration-test' as the goal -->
+      <build>
+        <plugins>
+          <plugin>
+		        <groupId>org.codehaus.mojo</groupId>
+		        <artifactId>exec-maven-plugin</artifactId>
+		        <version>1.3.2</version>
+		        <configuration>
+		          <skip>${skip.war.deploy}</skip>
+		          <executable>/bin/bash</executable>
+		          <arguments>
+		            <!-- default arguments are equivalent to '-d psiprobe -r script'-->
+		            <argument>${project.build.directory}/deploy.sh</argument>
+		            <!-- uncomment the following to use scp to deploy the war file remotely via scp -->
+		            <!-- <argument>-d scp</argument> -->
+		            <!-- uncomment the following to use cp to deploy the war file locally -->
+		            <!-- <argument>-d cp</argument> -->
+		            <!-- uncomment the following to use linux 'service' command instead of catalina script -->
+		            <!-- <argument>-r service</argument> -->
+		            <!-- uncomment the following 'sudo' arg to use sudo locally or over ssh -->
+		            <!-- <argument>s</argument> -->
+		          </arguments>
+		        </configuration>
+		        <executions>
+		          <execution>
+		            <id>restart-tomcat</id>
+		            <phase>pre-integration-test</phase>
+		            <goals>
+		              <goal>exec</goal>
+		            </goals>
+		          </execution>
+		        </executions>
+		      </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 
@@ -242,6 +340,7 @@
         <!-- We exclude the environment settings from the deployable (duh) -->
         <excludes>
           <exclude>db/**</exclude>
+          <exclude>izpack/**</exclude>
           <exclude>dev/**</exclude>
           <exclude>test/**</exclude>
           <exclude>load/**</exclude>
@@ -258,6 +357,14 @@
           <include>log4j.properties</include>
           <include>YADA.properties</include>
         </includes>
+        <excludes>
+          <exclude>**/*.sh</exclude>
+          <exclude>**/*.jar</exclude>
+          <exclude>**/*.zip</exclude>
+          <exclude>**/*.png</exclude>
+          <exclude>**/*.db</exclude>
+          <exclude>**/*.txt</exclude>
+        </excludes>
       </resource>
       <!-- filter the deployment script for the designated environment. the 
         exec plugin will execute it. The target path setting effectively omits it 
@@ -269,6 +376,15 @@
         <includes>
           <include>deploy.sh</include>
         </includes>
+        <excludes>
+          <exclude>**/YADA.properties</exclude>
+          <exclude>**/log4j.properties</exclude>
+          <exclude>**/*.jar</exclude>
+          <exclude>**/*.zip</exclude>
+          <exclude>**/*.png</exclude>
+          <exclude>**/*.db</exclude>
+          <exclude>**/*.txt</exclude>
+        </excludes>
       </resource>
     </resources>
 
@@ -307,24 +423,19 @@
           <includes>
             <include>**/*.java</include>
             <include>**/*.xml</include>
-            <include>**/*.xsl</include>
-            <include>**/*.pl</include>
-            <include>**/*.js</include>
             <include>**/*.html</include>
-            <include>**/*.css</include>
             <include>**/*.jsp</include>
+            <include>**/*.sh</include>
           </includes>
           <excludes>
             <exclude>pom.xml</exclude>
-            <exclude>target/**</exclude>
-            <exclude>src/site/**</exclude>
+            <exclude>src/main/resources/izpack/*.xml</exclude>
+            <exclude>src/main/resources/izpack/*.txt</exclude>
+            <exclude>src/main/resources/izpack/apache-tomcat-*/**</exclude>
             <exclude>src/test/resources/conf/**</exclude>
             <exclude>src/test/resources/test/**</exclude>
-            <exclude>src/main/resources/dev/tomcat-users.xml</exclude>
-            <exclude>src/main/resources/conf/**</exclude>
             <exclude>src/main/webapp/META-INF/**</exclude>
-            <exclude>src/main/webapp/WEB-INF/**</exclude>
-            <exclude>src/main/webapp/yada-admin/lib/**</exclude>
+            <exclude>target/**</exclude>
           </excludes>
         </configuration>
         <executions>
@@ -380,41 +491,6 @@
         </configuration>
       </plugin>
 
-      <!-- If you choose to use the included deployment script for non-local 
-        environments, this is where it becomes relevant, to redeploy the war file 
-        via curl/psiprobe and restart Tomcat. -->
-      <!-- To deploy without testing, use 'pre-integration-test' as the goal -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.3.2</version>
-        <configuration>
-          <skip>${skip.war.deploy}</skip>
-          <executable>/bin/bash</executable>
-          <arguments>
-            <!-- default arguments are equivalent to '-d psiprobe -r script'-->
-            <argument>${project.build.directory}/deploy.sh</argument>
-            <!-- uncomment the following to use scp to deploy the war file remotely via scp -->
-            <!-- <argument>-d scp</argument> -->
-            <!-- uncomment the following to use cp to deploy the war file locally -->
-            <!-- <argument>-d cp</argument> -->
-            <!-- uncomment the following to use linux 'service' command instead of catalina script -->
-            <!-- <argument>-r service</argument> -->
-            <!-- uncomment the following 'sudo' arg to use sudo locally or over ssh -->
-            <!-- <argument>s</argument> -->
-          </arguments>
-        </configuration>
-        <executions>
-          <execution>
-            <id>restart-tomcat</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
       <!-- for local deployment and testing, cargo will create a new tomcat 
         instance in your target directory, and start it up. If you want to do interactive 
         testing change the goal from 'start' to 'run' -->
@@ -425,7 +501,7 @@
         <configuration>
           <skip>${skip.cargo.deploy}</skip>
           <container>
-            <containerId>tomcat6x</containerId>
+            <containerId>tomcat</containerId>
             <home>${YADA.local.tomcat.home}</home>
           </container>
           <configuration>

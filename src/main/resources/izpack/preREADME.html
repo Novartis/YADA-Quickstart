@@ -1,0 +1,45 @@
+<!--
+
+    Copyright 2016 Novartis Institutes for BioMedical Research Inc.
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<h1>${project.artifactId}-${project.version}</h1>
+
+<h2>Installation</h2>
+
+<h4>tl;dr: Read the README.html (this file) after installation for launch instructions.</h4>
+
+<p>The ${project.artifactId} installer will create a <code>${project.artifactId}-${project.version}</code>
+ directory in a defined location. You'll have the option of designating a directory for install or accepting the default.</p>
+ 
+<p>The installer will then perform the following tasks</p>
+
+<ol>
+<li>Install apache-tomcat, a few sql scripts, and the <code>${project.artifactId}-${project.version}.war</code> file</li>
+<li>Explode the war file</li>
+<li>Prompt for apache-tomcat port numbers. (Values other than tomcat defaults are chosen in the likely case a user already has an instance of tomcat running.)</li>
+<li>Set some property values in config and script files</li>
+<li>Populate the default YADA index, a SQLite db included in the war</li>
+<li>Compress the reconfigured webapp into a new war file (i.e., overwrite it)</li>
+<li>Clean up</li>
+</ol> 
+
+<p>Originally the installer launched tomcat, ran a sanity check, and launched the yada-admin tool, 
+but this hasn't worked universally. It also maybe is a little presumptuous. You can follow the remaining
+directions to perform these tasks.</p>
+
+
+<h2>Launch</h2>
+
+<p>This section will be populated during installation with values specific to your environment.</p>

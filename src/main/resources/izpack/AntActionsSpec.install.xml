@@ -1,0 +1,16 @@
+<izpack:antactions version="5.0"
+                   xmlns:izpack="http://izpack.org/schema/antactions"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://izpack.org/schema/antactions http://izpack.org/schema/5.0/izpack-antactions-5.0.xsd">
+
+  <pack name="Web Application">
+    <antcall order="afterpack" buildfile="build.xml" dir="${INSTALL_PATH}" logfile="ant.log" logfile_append="false" verbose="yes">
+      <target name="install"/>
+      <property name="tc.server.port" value="${tc.server.port}"/>
+      <property name="tc.http.port" value="${tc.http.port}"/>
+      <property name="tc.ajp.port" value="${tc.ajp.port}"/>
+      <property name="tc.redirect.port" value="${tc.redirect.port}"/>
+    </antcall>
+  </pack>
+
+</izpack:antactions>

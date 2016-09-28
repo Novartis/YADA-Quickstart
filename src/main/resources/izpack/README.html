@@ -1,0 +1,112 @@
+<!--
+
+    Copyright 2016 Novartis Institutes for BioMedical Research Inc.
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<h1>${project.artifactId}-${project.version}</h1>
+
+<h2>Installation</h2>
+
+<h4>tl;dr: Read the README (this file) after installation for launch instructions.</h4>
+
+<p>The ${project.artifactId} installer will create a <code>${project.artifactId}-${project.version}</code>
+ directory in a defined location. You'll have the option of designating a directory for install or accepting the default.</p>
+ 
+<p>The installer will then perform the following tasks</p>
+
+<ol>
+<li>Install apache-tomcat, a few sql scripts, and the <code>${project.artifactId}-${project.version}.war</code> file</li>
+<li>Explode the war file</li>
+<li>Prompt for apache-tomcat port numbers. (Values other than tomcat defaults are chosen in the likely case a user already has an instance of tomcat running.)</li>
+<li>Set some property values in config and script files</li>
+<li>Populate the default YADA index, a SQLite db included in the war</li>
+<li>Compress the reconfigured webapp into a new war file (i.e., overwrite it)</li>
+<li>Clean up</li>
+</ol> 
+
+<p>Originally the installer launched tomcat, ran a sanity check, and launched the yada-admin tool, 
+but this hasn't worked universally. It also maybe is a little presumptuous. You can follow the remaining
+directions to perform these tasks.</p>
+
+<h2>Launch</h2>
+
+<h3>1. Execute the tomcat startup script:</h3>
+
+<h4>Unix, Mac OS X</h4>  
+<p>At a command prompt, run <pre>${app.home}/${container}/bin/catalina.sh start</pre></p>
+<p>If you get an error stating <code>CATALINA_HOME</code> is not set, open a terminal and execute:
+<pre>
+export CATALINA_HOME=${app.home}/${container}
+</pre>
+and try again.
+</p>
+<p>IF JRE_HOME or JAVA_HOME is not set, execute the following in the terminal:
+<pre>java -verbose</pre> and look at the first line which will resemble
+<pre>Opened... /path/to/jre.../lib/rt.jar</pre> then set the variable:
+<pre>export JAVA_HOME=/path/to/jdk...</pre> or <pre>export JRE_HOME=/path/to/jre...</pre>
+of course, omitting the <code>/lib/rt.jar</code> and substituting <code>/path/to/j...</code>
+with the <em>actual path</em>.
+</p>
+
+
+<h4>Windows</h4>
+<p>At a command prompt, run <pre>${app.home}\${container}\bin\catalina.bat start</pre></p>
+<p>If you get an error stating <code>CATALINA_HOME</code> is not set, open a cmd prompt and execute:
+<pre>
+set "CATALINA_HOME=${app.home}/${container}"
+</pre>
+and try again.
+</p>
+<p>IF JRE_HOME or JAVA_HOME is not set, execute the following at the cmd prompt:
+<pre>java -verbose|more</pre> and look at the first line which will resemble
+<pre>Opened... \path\to\jre...\lib\rt.jar</pre> then set the variable:
+<pre>set "JAVA_HOME=\path\to\jdk..."</pre> or <pre>set "JRE_HOME=\path\to\jre..."</pre>
+of course, omitting the <code>\lib\rt.jar</code> and substituting <code>\path\to\j...</code>
+with the <em>actual path</em>.
+</p>
+
+
+<h3>2. Sanity Check</h3>
+<p>When tomcat has started successfully, access the following url for a sanity check:
+<a href="http://localhost:${tc.http.port}/${project.artifactId}-${project.version}/yada.jsp?q=YADA+default&py=true">http://localhost:${tc.http.port}/${project.artifactId}-${project.version}/yada.jsp?q=YADA+default&py=true</a>
+<p>This request should return JSON like the following:
+<pre>
+{
+  "RESULTSET": {
+    "total": 1,
+    "records": 1,
+    "qname": "YADA default",
+    "page": "1",
+    "ROWS": [
+      {
+         "'YADA is alive'": "YADA is alive"
+      }
+    ]
+  },
+  "version": "${project.version}"
+}
+</pre>
+</p>
+
+<h3>3. yada-admin</h3>
+<p>Assuming this test is successful, you can access the yada-admin tool at the following url:
+<a href="http://localhost:${tc.http.port}/${project.artifactId}-${project.version}/yada-admin">http://localhost:${tc.http.port}/${project.artifactId}-${project.version}/yada-admin</a> 
+Use
+<ul>
+  <li>Username: <code>test</code></li>
+  <li>Password: <code>testt</code></li>
+</ul>
+
+Other provided users and passwords include <code>YADA/yada</code> and <code>YADAUSER/yada</code>.
+</p>

@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project name="YADA-Quickstart-izpack" default="" basedir=".">
+  <description>
+    build.xml for YADA-Quickstart izpack installer
+  </description>
+
+	<property name="app.home" location="."/>
+	<property name="display.version" value="${display.version}"/>
+	<property name="container" value="apache-tomcat-8.0.24"/>
+	<property name="YADA.local.tomcat.home" value="${container}"/>
+	<property name="context" value="${project.artifactId}-${project.version}"/>
+	<property name="webapp_dir" value="${container}/webapps/${context}"/>
+  <property name="classes_dir" value="${webapp_dir}/WEB-INF/classes"/>
+	<property name="YADA.local.sqlite.home" value="./${webapp_dir}"/>
+	
+	<property name="tc.server.port" value="${tc.server.port}"/>
+	<property name="tc.http.port" value="${tc.http.port}"/>
+	<property name="tc.ajp.port" value="${tc.ajp.port}"/>
+	<property name="tc.redirect.port" value="${tc.redirect.port}"/>
+	
+	<property name="sanity" value="\{&quot;RESULTSET&quot;:\{&quot;total&quot;:1,&quot;records&quot;:1,&quot;qname&quot;:&quot;YADA default&quot;,&quot;page&quot;:&quot;1&quot;,&quot;ROWS&quot;:[\{&quot;'YADA is alive'&quot;:&quot;YADA is alive&quot;\}]\},&quot;version&quot;:&quot;8.3.0-SNAPSHOT&quot;\}"/>
+	
+	<condition property="isUnixButNotMacOsX">
+    <and>
+      <os family="unix"/>
+      <not>
+        <os family="mac"/>
+      </not>
+    </and>
+  </condition>
+	<condition property="isWindows">
+	  <os family="windows"/>
+	</condition>
+	
+  <target name="make_dirs">
+    <mkdir dir="${webapp_dir}"/>
+  	<mkdir dir="bin"/>
+  	<mkdir dir="util"/>
+  	<mkdir dir="files/in"/>
+  	<mkdir dir="files/out"/>
+  </target>
+
+  <target name="inflate_war"  depends="make_dirs">
+	  <unwar src="./${webapp_dir}.${project.packaging}" dest="./${webapp_dir}"/>
+  	<echo message="export JAVA_OPTS=&quot;-Dsecurity.token=YADAYADA&quot;" file="${container}/bin/setenv.sh"/>
+  	<echo message="set JAVA_OPTS=&quot;-Dsecurity.token=YADAYADA&quot;" file="${container}/bin/setenv.bat"/>
+  	<chmod perm="+x">
+  	  <fileset dir="${container}/bin">
+  	  	<include name="*.sh"/>
+  	  	<include name="*.bat"/>
+  	  </fileset>
+    </chmod>
+  	<replaceregexp file="${container}/conf/server.xml" match="Server port=&quot;8005&quot;" replace="Server port=&quot;${tc.server.port}&quot;"/>
+  	<replaceregexp file="${container}/conf/server.xml" match="Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;" replace="Connector port=&quot;${tc.http.port}&quot; protocol=&quot;HTTP/1.1&quot;"/>
+  	<replaceregexp file="${container}/conf/server.xml" match="Connector port=&quot;8009&quot; protocol=&quot;AJP/1.3&quot;" replace="Connector port=&quot;${tc.ajp.port}&quot; protocol=&quot;AJP/1.3&quot;"/>
+  	<replaceregexp file="${container}/conf/server.xml" match="redirectPort=&quot;8443&quot;" replace="redirectPort=&quot;${tc.redirect.port}&quot;" flags="g"/>
+	</target>
+	
+	<target name="resources" depends="inflate_war">
+		<copy file="./${classes_dir}/YADA.properties" tofile="./${classes_dir}/YADA.properties.copy">
+	    <filterchain>
+        <expandproperties/>
+      </filterchain>
+	  </copy>
+		<move file="./${classes_dir}/YADA.properties.copy" tofile="./${classes_dir}/YADA.properties" overwrite="true"/>
+		
+		<copy file="./README.html" tofile="./README.html.copy">
+      <filterchain>
+        <expandproperties/>
+      </filterchain>
+    </copy>
+	  <move file="./README.html.copy" tofile="./README.html" overwrite="true"/>
+		
+		<concat destfile="./scripts/dbtmp.sql">
+      <fileset dir="./scripts" includes="*.sql"/>
+      <filterchain>
+        <expandproperties/>
+      </filterchain>
+    </concat>
+	</target>
+	
+	<target name="resources-win" depends="inflate_war" if="isWindows">
+		<pathconvert property="app.home.win" dirsep="/">
+		  <path location="${app.home}"/>
+		</pathconvert>
+		<replaceregexp file="./${classes_dir}/YADA.properties" byline="true" 
+			match="jdbcUrl=.+" 
+	    replace="jdbcUrl=jdbc:sqlite:${app.home.win}/${container}/webapps/${project.artifactId}-${project.version}/YADA.db"/>
+		<replaceregexp file="./scripts/dbtmp.sql"
+		  match="/(bin|util|files)/"
+		  replace="\\\\\1\\\\"
+		  flags="g"/>
+  </target>
+	
+	<target name="db" depends="resources,resources-win">
+		<sql driver="${YADA.index.driverClassName}"
+		         url="jdbc:sqlite:${app.home}/${YADA.local.tomcat.home}/webapps/${project.artifactId}-${project.version}/YADA.db"
+		         src="./scripts/dbtmp.sql"
+		         autocommit="true"
+		         userid=""
+		         password=""
+		         classpath="./${container}/lib/sqlite-jdbc-3.8.11.1.jar"
+		         escapeprocessing="false"/>
+	</target>
+	
+	<target name="compress_war" depends="db">
+	  <war destfile="./${webapp_dir}.${project.packaging}" basedir="./${webapp_dir}"/>
+	</target>
+	
+	<target name="clean" depends="compress_war">
+		<mkdir dir="cruft"/>
+		<!-- <move todir="./cruft">
+		  <fileset dir=".">
+		    <include name="*.log"/>
+			</fileset>
+		</move> -->
+	  <move file="./scripts" todir="./cruft"/>
+		<move file="./build.xml" todir="./cruft"/>
+	</target>
+	
+	<!--
+	<target name="start" depends="compress_war" unless="${isUnixButNotMacOsX}">
+		<exec osfamily="windows" executable="./${container}/bin/catalina.bat">
+			<arg value="start"/>
+		</exec>
+		<exec osfamily="mac" executable="./${container}/bin/catalina.sh">
+			<arg value="start"/>
+		</exec>
+  </target>
+	
+	<target name="start-unix" depends="compress_war" if="${isUnixButNotMacOsX}">
+	  <exec osfamily="unix" executable="./${container}/bin/catalina.sh">
+	    <arg value="start"/>
+    </exec>	
+	</target>
+	
+	<target name="test" depends="start">
+		<sleep seconds="5"/>
+		<loadresource property="sanity.check">
+			<url url="http://localhost:8888/${context}/yada.jsp?q=YADA+default"/>
+	  </loadresource>
+		<waitfor maxwait="30" maxwaitunit="second" timeoutproperty="build.timeout">
+		  <contains string="${sanity.check}" substring="YADA is alive" />
+    </waitfor>
+	</target>
+	-->
+	
+	
+	<!--
+	<target name="launch" depends="start" unless="isUnixButNotMacOsX">
+    <exec osfamily="windows" executable="start">
+      <arg value="&quot;&quot;"/>
+    	<arg value="localhost:8888/${context}/yada-admin"/>
+    </exec>
+    <exec osfamily="mac" executable="open">
+    	<arg value="localhost:8888/${context}/yada-admin"/>
+    </exec>
+  </target>
+	
+	<target name="launch-unix" depends="start" if="isUnixButNotMacOsX">
+    <exec osfamily="unix" executable="xdg-open">
+      <arg value="localhost:8888/${context}/yada-admin"/>
+    </exec>	 
+	</target>
+	-->
+
+	<target name="install" depends="clean"/>
+</project>

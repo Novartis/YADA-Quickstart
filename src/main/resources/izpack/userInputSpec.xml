@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<izpack:userinput version="5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:izpack="http://izpack.org/schema/userinput" xsi:schemaLocation="http://izpack.org/schema/userinput http://izpack.org/schema/5.0/izpack-userinput-5.0.xsd">
+  <panel id="port.panel">
+    <field type="staticText" align="left"
+       txt="Tomcat port settings, with suggested defaults. These are different from the tomcat defaults in case you already have an instance of tomcat running."
+       id="staticText.text.1"/>
+    <field type="text" variable="tc.server.port">
+      <spec txt="Server port:" id="tc.server.port" size="6" set="8885"/>
+    </field>
+    <field type="text" variable="tc.http.port">
+      <spec txt="HTTP Connector Port:" id="tc.http.port" size="6" set="8888"/>
+    </field>
+    <field type="text" variable="tc.ajp.port">
+      <spec txt="AJP Connector Port:" id="tc.ajp.port" size="6" set="8889"/>
+    </field>
+    <field type="text" variable="tc.redirect.port">
+      <spec txt="Redirect Port:" id="tc.redirect.port" size="6" set="8883"/>
+    </field>
+    <field type="staticText" align="left"
+       txt="To change these later, edit the"
+       id="staticText.text.2"/>
+    <field type="staticText" align="left"
+       txt="${container}/conf/server.xml file."
+       id="staticText.text.3"/>    
+  </panel>
+</izpack:userinput>

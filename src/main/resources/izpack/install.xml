@@ -1,0 +1,122 @@
+<izpack:installation version="5.0"
+                     xmlns:izpack="http://izpack.org/schema/installation"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd">
+  <properties>
+    <property name="iz.dir" value="${project.basedir}/src/main/resources/izpack"/>
+    <property name="db.dir" value="${project.basedir}/src/main/resources/db"/>
+    <property name="build.dir" value="${project.build.directory}/izpack"/>
+    <property name="container" value="apache-tomcat-8.0.24"/>
+  </properties>
+   
+  <dynamicvariables>
+    <variable name="display.version" value="${display.version}"/>
+    <variable name="app.home" value="${INSTALL_PATH}"/>
+  </dynamicvariables>
+ 
+  <info>
+    <appname>${project.artifactId}</appname>
+    <appversion>${display.version}</appversion>
+    <url>${project.url}</url>
+    <authors>
+      <author name="varontron" email="varontron@gmail.com"/>
+    </authors>
+    <javaversion>1.8</javaversion>
+    <requiresjdk>no</requiresjdk>
+    <summarylogfilepath>${INSTALL_PATH}/installLog.html</summarylogfilepath>
+    <uninstaller write="no"/>
+  </info>
+ 
+  <locale>
+    <langpack iso3="eng"/>
+  </locale>
+  
+  <resources>
+    <res id="Splash.image" src="@{iz.dir}/blox250.png"/>
+    <res id="Installer.image" src="@{iz.dir}/blox250.png"/>
+    <res id="HTMLHelloPanel.hello.readme" src="@{build.dir}/preREADME.html"/>
+    <res id="LicencePanel.license.yada" src="@{iz.dir}/LICENSE.txt"/>
+    <res id="LicencePanel.license.hsqldb" src="@{iz.dir}/hsqldb.txt"/>
+    <res id="AntActionsSpec.xml" src="@{iz.dir}/AntActionsSpec.install.xml"/>
+    <res id="userInputSpec.xml" src="@{iz.dir}/userInputSpec.xml"/>
+  </resources>
+  
+  <jar src="/Applications/IzPack/lib/ant-1.9.4.jar" stage="install"/>
+  <jar src="/Applications/IzPack/lib/ant-launcher-1.9.4.jar" stage="install"/>
+ 
+  <guiprefs width="800" height="403" resizable="yes">
+    <laf name="substance">
+      <os family="windows" />
+      <os family="unix" />
+      <param name="variant" value="mist-silver" />
+    </laf>
+    <laf name="substance">
+      <os family="mac" />
+      <param name="variant" value="mist-aqua" />
+    </laf>
+    
+    <modifier key="useSplashScreen" value="3000"/>
+    <modifier key="layoutAnchor" value="top"/>
+    <modifier key="useHeadingPanel" value="yes"/>
+    <modifier key="useHeadingForSummary" value="yes"/>
+    <!-- <modifier key="headingImageOnLeft" value="yes"/> -->
+    <modifier key="headingLineCount" value="2"/>
+    <modifier key="headingFontSize" value="1.5"/>
+    <modifier key="headingBackgroundColor" value="0x00ffffff"/>
+    <modifier key="headingPanelCounter" value="progressbar"/>
+    <modifier key="headingPanelCounterPos" value="inNavigationPanel"/>
+  </guiprefs>
+ 
+  <panels>
+    <panel classname="HTMLHelloPanel" id="hello.readme"/>
+    <panel classname="LicencePanel" id="license.yada"/>
+    <panel classname="LicencePanel" id="license.hsqldb"/>
+    <panel classname="TargetPanel" id="target.readme"/>
+    <panel classname="UserInputPanel" id="port.panel"/>
+    <panel classname="TreePacksPanel" id="packs.readme"/>
+    <panel classname="InstallPanel" id="install.readme"/>    
+    <panel classname="SimpleFinishPanel" id="finish.readme"/>
+  </panels>
+  
+  <listeners>
+    <listener classname="AntActionInstallerListener" stage="install"/>
+  </listeners>
+  
+ 
+  <packs>
+    <pack name="Tasks" required="yes" hidden="false">
+      <description>Actions to execute during installation</description>
+      <file src="@{build.dir}/README.html" targetdir="${INSTALL_PATH}"/>
+      <file src="@{build.dir}/build.xml" targetdir="${INSTALL_PATH}"/>
+      <fileset dir="@{db.dir}/scripts" targetdir="${INSTALL_PATH}/scripts">
+          <include name="YADA_query_essentials.sql"/>
+          <include name="YADA_db_SQLite.sql"/>
+      </fileset>
+    </pack>
+    
+    <pack name="Servlet Container" required="yes">
+      <description>The java servlet container</description>
+      <file src="@{iz.dir}/${container}.zip" targetdir="${INSTALL_PATH}" unpack="true"/>
+    </pack>
+
+    <pack name="JDBC Drivers" required="yes" id="pack.jdbc">
+      <description>Provided JDBC drivers</description>
+    </pack>
+    
+	    <pack name="sqlite-jdbc-3.8.11.1.jar" required="yes" parent="JDBC Drivers">
+	      <description>SQLite driver: Required for quickstart configuration</description>
+	      <file src="@{iz.dir}/drivers/sqlite-jdbc-3.8.11.1.jar" targetdir="${INSTALL_PATH}/${container}/lib"/>
+	    </pack>
+	    <pack name="hsqldb-2.3.3.jar" required="yes" parent="JDBC Drivers">
+	      <description>HyperSQLDB driver: Required for on-the-fly-joins</description>
+	      <file src="@{iz.dir}/drivers/hsqldb-2.3.3.jar" targetdir="${INSTALL_PATH}/${container}/lib"/>
+	    </pack>
+    
+    <pack name="Web Application" required="yes">
+      <description>The YADA-Quickstart web application</description>
+      <file src="${project.build.directory}/${project.artifactId}-${project.version}.${project.packaging}" targetdir="${INSTALL_PATH}/${container}/webapps"/>
+    </pack>
+    
+  </packs>
+ 
+</izpack:installation>
