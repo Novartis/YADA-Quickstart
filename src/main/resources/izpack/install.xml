@@ -8,12 +8,12 @@
     <property name="build.dir" value="${project.build.directory}/izpack"/>
     <property name="container" value="apache-tomcat-8.0.24"/>
   </properties>
-   
+
   <dynamicvariables>
     <variable name="display.version" value="${display.version}"/>
     <variable name="app.home" value="${INSTALL_PATH}"/>
   </dynamicvariables>
- 
+
   <info>
     <appname>${project.artifactId}</appname>
     <appversion>${display.version}</appversion>
@@ -26,11 +26,11 @@
     <summarylogfilepath>${INSTALL_PATH}/installLog.html</summarylogfilepath>
     <uninstaller write="no"/>
   </info>
- 
+
   <locale>
     <langpack iso3="eng"/>
   </locale>
-  
+
   <resources>
     <res id="Splash.image" src="@{iz.dir}/blox250.png"/>
     <res id="Installer.image" src="@{iz.dir}/blox250.png"/>
@@ -40,10 +40,10 @@
     <res id="AntActionsSpec.xml" src="@{iz.dir}/AntActionsSpec.install.xml"/>
     <res id="userInputSpec.xml" src="@{iz.dir}/userInputSpec.xml"/>
   </resources>
-  
+
   <jar src="/Applications/IzPack/lib/ant-1.9.4.jar" stage="install"/>
   <jar src="/Applications/IzPack/lib/ant-launcher-1.9.4.jar" stage="install"/>
- 
+
   <guiprefs width="800" height="403" resizable="yes">
     <laf name="substance">
       <os family="windows" />
@@ -54,7 +54,7 @@
       <os family="mac" />
       <param name="variant" value="mist-aqua" />
     </laf>
-    
+
     <modifier key="useSplashScreen" value="3000"/>
     <modifier key="layoutAnchor" value="top"/>
     <modifier key="useHeadingPanel" value="yes"/>
@@ -66,7 +66,7 @@
     <modifier key="headingPanelCounter" value="progressbar"/>
     <modifier key="headingPanelCounterPos" value="inNavigationPanel"/>
   </guiprefs>
- 
+
   <panels>
     <panel classname="HTMLHelloPanel" id="hello.readme"/>
     <panel classname="LicencePanel" id="license.yada"/>
@@ -74,15 +74,15 @@
     <panel classname="TargetPanel" id="target.readme"/>
     <panel classname="UserInputPanel" id="port.panel"/>
     <panel classname="TreePacksPanel" id="packs.readme"/>
-    <panel classname="InstallPanel" id="install.readme"/>    
+    <panel classname="InstallPanel" id="install.readme"/>
     <panel classname="SimpleFinishPanel" id="finish.readme"/>
   </panels>
-  
+
   <listeners>
     <listener classname="AntActionInstallerListener" stage="install"/>
   </listeners>
-  
- 
+
+
   <packs>
     <pack name="Tasks" required="yes" hidden="false">
       <description>Actions to execute during installation</description>
@@ -90,10 +90,11 @@
       <file src="@{build.dir}/build.xml" targetdir="${INSTALL_PATH}"/>
       <fileset dir="@{db.dir}/scripts" targetdir="${INSTALL_PATH}/scripts">
           <include name="YADA_query_essentials.sql"/>
-          <include name="YADA_db_SQLite.sql"/>
+          <!-- <include name="YADA_db_SQLite.sql"/> -->
+          <include name="YADA_db_HSQLdb.sql"/>
       </fileset>
     </pack>
-    
+
     <pack name="Servlet Container" required="yes">
       <description>The java servlet container</description>
       <file src="@{iz.dir}/${container}.zip" targetdir="${INSTALL_PATH}" unpack="true"/>
@@ -102,21 +103,25 @@
     <pack name="JDBC Drivers" required="yes" id="pack.jdbc">
       <description>Provided JDBC drivers</description>
     </pack>
-    
-	    <pack name="sqlite-jdbc-3.8.11.1.jar" required="yes" parent="JDBC Drivers">
-	      <description>SQLite driver: Required for quickstart configuration</description>
+
+	    <!-- <pack name="sqlite-jdbc-3.8.11.1.jar" required="no" parent="JDBC Drivers">
+	      <description>SQLite driver: Optional for quickstart configuration</description>
 	      <file src="@{iz.dir}/drivers/sqlite-jdbc-3.8.11.1.jar" targetdir="${INSTALL_PATH}/${container}/lib"/>
-	    </pack>
-	    <pack name="hsqldb-2.3.3.jar" required="yes" parent="JDBC Drivers">
+	    </pack> -->
+	    <!-- <pack name="hsqldb-2.3.3.jar" required="yes" parent="JDBC Drivers">
 	      <description>HyperSQLDB driver: Required for on-the-fly-joins</description>
 	      <file src="@{iz.dir}/drivers/hsqldb-2.3.3.jar" targetdir="${INSTALL_PATH}/${container}/lib"/>
+	    </pack> -->
+      <pack name="hsqldb-2.3.4.jar" required="yes" parent="JDBC Drivers">
+	      <description>HyperSQLDB driver: Required for on-the-fly-joins</description>
+	      <file src="@{iz.dir}/drivers/hsqldb-2.3.4.jar" targetdir="${INSTALL_PATH}/${container}/lib"/>
 	    </pack>
-    
+
     <pack name="Web Application" required="yes">
       <description>The YADA-Quickstart web application</description>
       <file src="${project.build.directory}/${project.artifactId}-${project.version}.${project.packaging}" targetdir="${INSTALL_PATH}/${container}/webapps"/>
     </pack>
-    
+
   </packs>
- 
+
 </izpack:installation>

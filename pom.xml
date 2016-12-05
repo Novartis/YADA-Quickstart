@@ -13,7 +13,7 @@
     dependencies' versions are configured to equal ${project.version}, so if 
     the actual ${project.version} value is changed below, the dependency configs 
     will need to be adjusted accordingly. -->
-  <version>8.3.1-SNAPSHOT</version>
+  <version>8.4.0-SNAPSHOT</version>
 
   <packaging>war</packaging>
   
@@ -119,7 +119,7 @@
   <!-- These profiles are set up to build your warfile for different environments, 
     assuming you don't use a continuous-integration (CI) tool like Jenkins. Obviously, 
     if you use a CI tool, you probably won't use maven to build locally, let 
-    alone deploy or test. In that case these settins, and environment-specific 
+    alone deploy or test. In that case these settings, and environment-specific 
     properties and scripts may serve as guidelines for CI configuration. -->
 
   <profiles>
@@ -456,14 +456,6 @@
             <addMavenDescriptor>false</addMavenDescriptor>
           </archive>
           <webResources>
-            <!-- includes the default sqlite db in the war file -->
-            <!-- comment out the following resource section to exclude the 
-              YADA.db sqlite file from the artifact -->
-            <resource>
-              <directory>${basedir}/src/main/resources/db/</directory>
-              <filtering>false</filtering>
-              <include>YADA.db</include>
-            </resource>
             <!-- set context values including resources and env vars -->
             <resource>
               <directory>${basedir}/src/main/webapp/META-INF</directory>

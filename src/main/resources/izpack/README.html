@@ -22,7 +22,7 @@
 
 <p>The ${project.artifactId} installer will create a <code>${project.artifactId}-${project.version}</code>
  directory in a defined location. You'll have the option of designating a directory for install or accepting the default.</p>
- 
+
 <p>The installer will then perform the following tasks</p>
 
 <ol>
@@ -30,12 +30,13 @@
 <li>Explode the war file</li>
 <li>Prompt for apache-tomcat port numbers. (Values other than tomcat defaults are chosen in the likely case a user already has an instance of tomcat running.)</li>
 <li>Set some property values in config and script files</li>
-<li>Populate the default YADA index, a SQLite db included in the war</li>
+<!-- <li>Populate the default YADA index, a SQLite db included in the war</li> -->
+<li>Populate the default YADA index, an HSQLdb file included in the war</li>
 <li>Compress the reconfigured webapp into a new war file (i.e., overwrite it)</li>
 <li>Clean up</li>
-</ol> 
+</ol>
 
-<p>Originally the installer launched tomcat, ran a sanity check, and launched the yada-admin tool, 
+<p>Originally the installer launched tomcat, ran a sanity check, and launched the yada-admin tool,
 but this hasn't worked universally. It also maybe is a little presumptuous. You can follow the remaining
 directions to perform these tasks.</p>
 
@@ -43,7 +44,7 @@ directions to perform these tasks.</p>
 
 <h3>1. Execute the tomcat startup script:</h3>
 
-<h4>Unix, Mac OS X</h4>  
+<h4>Unix, Mac OS X</h4>
 <p>At a command prompt, run <pre>${app.home}/${container}/bin/catalina.sh start</pre></p>
 <p>If you get an error stating <code>CATALINA_HOME</code> is not set, open a terminal and execute:
 <pre>
@@ -79,7 +80,7 @@ with the <em>actual path</em>.
 
 <h3>2. Sanity Check</h3>
 <p>When tomcat has started successfully, access the following url for a sanity check:
-<a href="http://localhost:${tc.http.port}/${project.artifactId}-${project.version}/yada.jsp?q=YADA+default&py=true">http://localhost:${tc.http.port}/${project.artifactId}-${project.version}/yada.jsp?q=YADA+default&py=true</a>
+<a href="http://localhost:${tc.http.port}/${project.artifactId}-${project.version}/yada.jsp?q=YADA+default&pz=1&py=true">http://localhost:${tc.http.port}/${project.artifactId}-${project.version}/yada.jsp?q=YADA+default&amp;pz=1&amp;py=true</a>
 <p>This request should return JSON like the following:
 <pre>
 {
@@ -101,7 +102,7 @@ with the <em>actual path</em>.
 
 <h3>3. yada-admin</h3>
 <p>Assuming this test is successful, you can access the yada-admin tool at the following url:
-<a href="http://localhost:${tc.http.port}/${project.artifactId}-${project.version}/yada-admin">http://localhost:${tc.http.port}/${project.artifactId}-${project.version}/yada-admin</a> 
+<a href="http://localhost:${tc.http.port}/${project.artifactId}-${project.version}/yada-admin">http://localhost:${tc.http.port}/${project.artifactId}-${project.version}/yada-admin</a>
 Use
 <ul>
   <li>Username: <code>test</code></li>
