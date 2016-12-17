@@ -8,29 +8,29 @@
   <!-- Use any name that is meaningful in your environment -->
   <artifactId>YADA-Quickstart</artifactId>
 
-  <!-- You could keep the version number consistent with the version of YADA 
-    you are using, or whatever you want. Currently the yada-api and yada-war 
-    dependencies' versions are configured to equal ${project.version}, so if 
-    the actual ${project.version} value is changed below, the dependency configs 
+  <!-- You could keep the version number consistent with the version of YADA
+    you are using, or whatever you want. Currently the yada-api and yada-war
+    dependencies' versions are configured to equal ${project.version}, so if
+    the actual ${project.version} value is changed below, the dependency configs
     will need to be adjusted accordingly. -->
-  <version>8.4.0</version>
+  <version>8.4.1-SNAPSHOT</version>
 
   <packaging>war</packaging>
-  
+
   <url>http://github.com/Novartis/YADA</url>
-  
+
   <licenses>
     <license>
       <name>Apache License, Version 2.0</name>
       <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
     </license>
   </licenses>
-  
+
   <organization>
    <name>Novartis Institutes for BioMedical Research, Inc</name>
    <url>http://opensource.nibr.com</url>
   </organization>
-  
+
   <distributionManagement>
     <site>
       <id>yada.site</id>
@@ -46,7 +46,7 @@
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
-  
+
   <developers>
    <developer>
      <name>David Varon</name>
@@ -55,71 +55,71 @@
      <organizationUrl>http://opensource.nibr.com</organizationUrl>
    </developer>
   </developers>
-  
+
   <scm>
     <connection>scm:git:ssh:git@github.com:Novartis/YADA-Quickstart.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/Novartis/YADA-Quickstart.git</developerConnection>
     <url>scm:git:ssh://github.com/Novartis/YADA-Quickstart</url>
   </scm>
-  
+
   <!-- Year of current version -->
   <inceptionYear>2016</inceptionYear>
-  
+
   <!-- Use any name that is meaningful in your environment -->
   <name>YADA-Quickstart</name>
 
-  <!-- Set properties that are salient to your build process. This is your 
-    project and the properties can reflect any build scenarios that you require. 
+  <!-- Set properties that are salient to your build process. This is your
+    project and the properties can reflect any build scenarios that you require.
     The defaults below are explained in the comments -->
   <properties>
     <!-- 'display.version -->
-    <!-- Adds version stamp to yada-admin UI and to JNDI context for inclusion 
+    <!-- Adds version stamp to yada-admin UI and to JNDI context for inclusion
       in default Response structures -->
     <display.version>${project.version}</display.version>
 
     <!-- 'project.build.sourceEncoding' -->
-    <!-- Required to make the build platform independent. Maven will warn 
+    <!-- Required to make the build platform independent. Maven will warn
       you about this at the end of the build if it is omitted -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- 'skip.war.deploy' -->
-    <!-- Referenced by the 'war-deploy' profile and in turn by the exec plugin. 
-      When 'true', the exec plugin will not execute. (true == skip) When 'false', 
-      the exec plugin will execute. The exec plugin is used to deploy the YADA 
-      war file to remote servers. Execution is skipped by default, as local testing 
-      deployments use the cargo plugin, and so you don't get confused as you're 
-      just starting out. The cargo plugin could theoretically be used for this 
-      too, but it can be difficult to configure for remote access (what with settings.xml 
-      changes and environment-specific properties, etc.) It works very well for 
-      local deployments, in particular for testing, and that is how it is used 
+    <!-- Referenced by the 'war-deploy' profile and in turn by the exec plugin.
+      When 'true', the exec plugin will not execute. (true == skip) When 'false',
+      the exec plugin will execute. The exec plugin is used to deploy the YADA
+      war file to remote servers. Execution is skipped by default, as local testing
+      deployments use the cargo plugin, and so you don't get confused as you're
+      just starting out. The cargo plugin could theoretically be used for this
+      too, but it can be difficult to configure for remote access (what with settings.xml
+      changes and environment-specific properties, etc.) It works very well for
+      local deployments, in particular for testing, and that is how it is used
       here. -->
     <skip.war.deploy>true</skip.war.deploy>
 
     <!-- 'skip.cargo.deploy' -->
-    <!-- Lo, here it is. The cargo plugin is used for local testing. It is 
-      skipped by default, so it doesn't confuse you as you're familiarizing yourself 
+    <!-- Lo, here it is. The cargo plugin is used for local testing. It is
+      skipped by default, so it doesn't confuse you as you're familiarizing yourself
       with the YADA environment. -->
     <skip.cargo.deploy>true</skip.cargo.deploy>
 
     <!-- 'skip.auth.test' -->
-    <!-- Auth testing presumes you have a different host or uri for YADA 
-      if it's behind an authentication gateway. The maven failsafe plugin is used 
+    <!-- Auth testing presumes you have a different host or uri for YADA
+      if it's behind an authentication gateway. The maven failsafe plugin is used
       for testing. -->
     <skip.auth.test>false</skip.auth.test>
 
     <!-- 'skip.noauth.test' -->
-    <!-- Noauth testing presumes you have a different host or uri for YADA 
-      if it's behind an authentication gateway. The maven failsafe plugin is used 
+    <!-- Noauth testing presumes you have a different host or uri for YADA
+      if it's behind an authentication gateway. The maven failsafe plugin is used
       for testing. -->
     <skip.noauth.test>false</skip.noauth.test>
   </properties>
 
   <description>Custom implementation of YADA</description>
 
-  <!-- These profiles are set up to build your warfile for different environments, 
-    assuming you don't use a continuous-integration (CI) tool like Jenkins. Obviously, 
-    if you use a CI tool, you probably won't use maven to build locally, let 
-    alone deploy or test. In that case these settings, and environment-specific 
+  <!-- These profiles are set up to build your warfile for different environments,
+    assuming you don't use a continuous-integration (CI) tool like Jenkins. Obviously,
+    if you use a CI tool, you probably won't use maven to build locally, let
+    alone deploy or test. In that case these settings, and environment-specific
     properties and scripts may serve as guidelines for CI configuration. -->
 
   <profiles>
@@ -180,7 +180,7 @@
 		            </goals>
 		          </execution>
 		        </executions>
-		      </plugin> 
+		      </plugin>
 	      </plugins>
 	    </build>
     </profile>
@@ -189,14 +189,14 @@
            for an internal deployment -->
     <!-- 'local' -->
     <!-- The 'local' profile is active by default. -->
-    <!-- Remember that passing any other profile name to maven will override 
-      activeByDefault settings, so you will need to include the 'local' profile 
+    <!-- Remember that passing any other profile name to maven will override
+      activeByDefault settings, so you will need to include the 'local' profile
       name if you want to also use 'war-deploy' -->
-    <!-- The 'local' profile sets the ${env} property to 'local', which ultimately 
-      is translated into the path '/resources/conf/local' in order to use the environment-specific 
-      'build.properties' file. 'local' can also turn on 'cargo-deploy' (off by default) and turns off 
-      auth testing, assuming that you want to deploy to a local tomcat instance, 
-      and that it won't be behind your authentication gateway, so you'll just do 
+    <!-- The 'local' profile sets the ${env} property to 'local', which ultimately
+      is translated into the path '/resources/conf/local' in order to use the environment-specific
+      'build.properties' file. 'local' can also turn on 'cargo-deploy' (off by default) and turns off
+      auth testing, assuming that you want to deploy to a local tomcat instance,
+      and that it won't be behind your authentication gateway, so you'll just do
       noauth, if any, testing. -->
     <profile>
       <id>local</id>
@@ -209,10 +209,10 @@
     </profile>
 
     <!-- 'dev' -->
-    <!-- The 'dev' profile sets the ${env} property to 'dev', which ultimately 
-      is translated into the path '/resources/conf/dev' in order to use the environment-specific 
-      'build.properties' file and 'deploy.sh' script. 'dev' does not automatically 
-      deploy, in case you want to just run tests without wasting time deploying 
+    <!-- The 'dev' profile sets the ${env} property to 'dev', which ultimately
+      is translated into the path '/resources/conf/dev' in order to use the environment-specific
+      'build.properties' file and 'deploy.sh' script. 'dev' does not automatically
+      deploy, in case you want to just run tests without wasting time deploying
       the same version of the war file -->
     <profile>
       <id>dev</id>
@@ -222,10 +222,10 @@
     </profile>
 
     <!-- 'test' -->
-    <!-- The 'test' profile sets the ${env} property to 'test', which ultimately 
-      is translated into the path '/resources/conf/test' in order to use the environment-specific 
-      'build.properties' file and 'deploy.sh' script. 'test' does not automatically 
-      deploy, in case you want to just run tests without wasting time deploying 
+    <!-- The 'test' profile sets the ${env} property to 'test', which ultimately
+      is translated into the path '/resources/conf/test' in order to use the environment-specific
+      'build.properties' file and 'deploy.sh' script. 'test' does not automatically
+      deploy, in case you want to just run tests without wasting time deploying
       the same version of the war file -->
     <profile>
       <id>test</id>
@@ -235,8 +235,8 @@
     </profile>
 
     <!-- 'load' -->
-    <!-- Maybe you need a second internal implementation pointing to your 
-      production environment just for ETL? This is here to illustrate that "sure, 
+    <!-- Maybe you need a second internal implementation pointing to your
+      production environment just for ETL? This is here to illustrate that "sure,
       you can do that!" -->
     <profile>
       <id>load</id>
@@ -248,9 +248,9 @@
     </profile>
 
     <!-- 'prod' -->
-    <!-- The 'prod' profile sets the ${env} property to 'prod', which ultimately 
-      is translated into the path '/resources/conf/prod' in order to use the environment-specific 
-      'build.properties' file for filtering and 'deploy.sh' script for deployment. 
+    <!-- The 'prod' profile sets the ${env} property to 'prod', which ultimately
+      is translated into the path '/resources/conf/prod' in order to use the environment-specific
+      'build.properties' file for filtering and 'deploy.sh' script for deployment.
       Unlike other environment settings, no tests are run by default. -->
     <profile>
       <id>prod</id>
@@ -261,15 +261,15 @@
       </properties>
     </profile>
 
-    <!-- When war-deploy is active, the exec plugin will execute with designated 
-      environment settings. For example the command 'mvn -pdev,war-deploy' will 
-      build your warfile, run your /resources/conf/dev/deploy.sh script, and then 
+    <!-- When war-deploy is active, the exec plugin will execute with designated
+      environment settings. For example the command 'mvn -pdev,war-deploy' will
+      build your warfile, run your /resources/conf/dev/deploy.sh script, and then
       run both auth and no-auth testing -->
-    <!-- There are two deploy.sh options shipped in the 'dev' directory: 
+    <!-- There are two deploy.sh options shipped in the 'dev' directory:
       deploy.sh_probe and deploy.sh_local -->
-    <!-- deploy.sh_psiprobe: Rename to 'deploy.sh' to use the psi-probe tomcat 
+    <!-- deploy.sh_psiprobe: Rename to 'deploy.sh' to use the psi-probe tomcat
       manager to automate deployment of your warfile to a remote host. -->
-    <!-- deploy.sh_local: Rename to 'deploy.sh' if a pre-existing container 
+    <!-- deploy.sh_local: Rename to 'deploy.sh' if a pre-existing container
       on the same server where you are building, and you don't have psiprobe installed. -->
 
     <profile>
@@ -277,8 +277,8 @@
       <properties>
         <skip.war.deploy>false</skip.war.deploy>
       </properties>
-      <!-- If you choose to use the included deployment script for non-local 
-        environments, this is where it becomes relevant, to redeploy the war file 
+      <!-- If you choose to use the included deployment script for non-local
+        environments, this is where it becomes relevant, to redeploy the war file
         via curl/psiprobe and restart Tomcat. -->
       <!-- To deploy without testing, use 'pre-integration-test' as the goal -->
       <build>
@@ -320,10 +320,10 @@
 
   <!-- Mavens meaty bit -->
   <build>
-    <!-- Change the following, for example to 'ROOT' and YADA will install as the ROOT context. 
+    <!-- Change the following, for example to 'ROOT' and YADA will install as the ROOT context.
       Feel free to change it. By default, the context will be YADA-Quickstart-version -->
     <finalName>${project.artifactId}-${project.version}</finalName>
-    <!-- As you can see, this is where the local, dev, test, load, or prod 
+    <!-- As you can see, this is where the local, dev, test, load, or prod
       profile choice becomes relevant, defining the values used for filtering resources -->
     <filters>
       <filter>${basedir}/src/main/resources/${env}/build.properties</filter>
@@ -331,8 +331,8 @@
     <resources>
       <resource>
         <directory>${basedir}/src/main/resources</directory>
-        <!-- This is here as an example of how to include extra resources 
-          in your deployable, that you may, for example, be required by one of your 
+        <!-- This is here as an example of how to include extra resources
+          in your deployable, that you may, for example, be required by one of your
           java plugins -->
         <includes>
           <include>templates/**</include>
@@ -348,7 +348,7 @@
           <exclude>prod/**</exclude>
         </excludes>
       </resource>
-      <!-- Get the environment specific props files that should be included 
+      <!-- Get the environment specific props files that should be included
         in the deployable -->
       <resource>
         <directory>${basedir}/src/main/resources/${env}</directory>
@@ -366,8 +366,8 @@
           <exclude>**/*.txt</exclude>
         </excludes>
       </resource>
-      <!-- filter the deployment script for the designated environment. the 
-        exec plugin will execute it. The target path setting effectively omits it 
+      <!-- filter the deployment script for the designated environment. the
+        exec plugin will execute it. The target path setting effectively omits it
         from the deployable -->
       <resource>
         <directory>${basedir}/src/main/resources/${env}</directory>
@@ -388,7 +388,7 @@
       </resource>
     </resources>
 
-    <!-- Maven's testResources config, so you can include your internal tests 
+    <!-- Maven's testResources config, so you can include your internal tests
       and filter them -->
     <testResources>
       <!-- Your test properties and testng xml configs are in 'conf' -->
@@ -405,9 +405,9 @@
       </testResource>
     </testResources>
 
-    <!-- The war plugin builds the deployable, the context.xml is defined 
-      locally in your project. Anything else you include under '${basedir}/src/main/webapp' 
-      should append or overwrite the artifacts in yada-war. This is how you customize 
+    <!-- The war plugin builds the deployable, the context.xml is defined
+      locally in your project. Anything else you include under '${basedir}/src/main/webapp'
+      should append or overwrite the artifacts in yada-war. This is how you customize
       the 'yada-admin' tool, for example. -->
     <plugins>
       <plugin>
@@ -483,8 +483,8 @@
         </configuration>
       </plugin>
 
-      <!-- for local deployment and testing, cargo will create a new tomcat 
-        instance in your target directory, and start it up. If you want to do interactive 
+      <!-- for local deployment and testing, cargo will create a new tomcat
+        instance in your target directory, and start it up. If you want to do interactive
         testing change the goal from 'start' to 'run' -->
       <plugin>
         <groupId>org.codehaus.cargo</groupId>
@@ -505,7 +505,7 @@
             <id>test-deploy</id>
             <phase>pre-integration-test</phase>
             <goals>
-              <!-- change from 'start' to 'run' to do interactive testing, 
+              <!-- change from 'start' to 'run' to do interactive testing,
                 or change to a property to pass on the command line -->
               <goal>start</goal>
             </goals>
@@ -527,9 +527,9 @@
             </goals>
             <configuration>
               <properties>
-                <!-- The use of the QueryFileTransformer listener makes test 
-                  toggling possible. Omitting it relegates test methods to in-code configuration, 
-                  thereby forcing the skipping of any superclass-(i.e.,ServiceTest)-defined 
+                <!-- The use of the QueryFileTransformer listener makes test
+                  toggling possible. Omitting it relegates test methods to in-code configuration,
+                  thereby forcing the skipping of any superclass-(i.e.,ServiceTest)-defined
                   methods. -->
                 <property>
                   <name>listener</name>
@@ -589,14 +589,14 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.18.1</version>
-        <!-- surefire is skipped by default to circumvent api testing which 
-          would otherwise run and fail, because the tests are included in the test-jar. 
+        <!-- surefire is skipped by default to circumvent api testing which
+          would otherwise run and fail, because the tests are included in the test-jar.
           The relevent tests for the war file are run by failsafe. -->
         <configuration>
           <skip>true</skip>
         </configuration>
       </plugin>
-      
+
       <!--  for sonatype release to maven central -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -612,12 +612,12 @@
           </execution>
         </executions>
       </plugin>
-      
+
     </plugins>
   </build>
 
-  <!-- If you write custom YADA java plugins, for example, maybe you need 
-    to support uploading and parsing of excel spreadsheets and require Poi to 
+  <!-- If you write custom YADA java plugins, for example, maybe you need
+    to support uploading and parsing of excel spreadsheets and require Poi to
     compile your plugin, this is where you add the dependency -->
   <dependencies>
     <dependency>
