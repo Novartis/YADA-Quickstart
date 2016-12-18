@@ -72,6 +72,12 @@
     </copy>
 	  <move file="./README.html.copy" tofile="./README.html" overwrite="true"/>
 
+    <delete includeEmptyDirs="true">
+      <fileset dir="./${webapp_dir}">
+        <include name="YADADB.*"/>
+      </fileset>
+    </delete>
+
 		<concat destfile="./scripts/dbtmp.sql">
       <fileset dir="./scripts" includes="YADA_db_HSQLdb.sql YADA_query_essentials.sql"/>
       <filterchain>
@@ -93,7 +99,19 @@
 		  flags="g"/>
   </target>
 
-	<target name="db" depends="resources,resources-win">
+  <target name="db_extra" depends="resources,resources-win">
+    <echo file="./scripts/dbtmp.sql" append="true"><![CDATA[
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('QGO search','id=?v&format=json','YADABOT','QGO');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADAFSIN test write','/test.txt<?v','YADABOT','YADAFSIN');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADAFSIN test append','/test.txt<<?v','YADABOT','YADAFSIN');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADAFSIN test read dir','/?v','YADABOT','YADAFSIN');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADAFSIN test read content','/?v','YADABOT','YADAFSIN');
+COMMIT;
+SHUTDOWN;]]>
+    </echo>
+  </target>
+
+	<target name="db_setup" depends="db_extra">
 		<sql driver="${YADA.index.driverClassName}"
 		         url="jdbc:hsqldb:file:${app.home}/${YADA.local.tomcat.home}/webapps/${project.artifactId}-${project.version}/YADADB"
 		         src="./scripts/dbtmp.sql"
@@ -104,7 +122,24 @@
 		         escapeprocessing="false"/>
 	</target>
 
-	<target name="compress_war" depends="db">
+  <!-- <target name="db_extra" depends="db_setup">
+		<sql driver="${YADA.index.driverClassName}"
+		         url="jdbc:hsqldb:file:${app.home}/${YADA.local.tomcat.home}/webapps/${project.artifactId}-${project.version}/YADADB"
+		         autocommit="true"
+		         userid="YADA"
+		         password="yada"
+		         classpath="./${container}/lib/hsqldb-2.3.4.jar"
+		         escapeprocessing="false"><![CDATA[
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('QGO search','id=?v&format=json','YADABOT','QGO');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADAFSIN test write','/test.txt<?v','YADABOT','YADAFSIN');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADAFSIN test append','/test.txt<<?v','YADABOT','YADAFSIN');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADAFSIN test read dir','/?v','YADABOT','YADAFSIN');
+INSERT into YADA_QUERY (qname,query,created_by,app) VALUES ('YADAFSIN test read content','/?v','YADABOT','YADAFSIN');
+COMMIT;
+       ]]></sql>
+	</target> -->
+
+	<target name="compress_war" depends="db_setup">
 	  <war destfile="./${webapp_dir}.${project.packaging}" basedir="./${webapp_dir}"/>
 	</target>
 

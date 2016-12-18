@@ -24,6 +24,18 @@ h1,h2,h3,h4 {
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
 }
+h2,h3,h4 {
+  padding-left: 5px;
+  background: rgba(245, 94, 0, 0.1);
+  border: 1px solid #CCC;
+}
+h4 {
+  padding-left: 15px;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
 div {
   padding-left: 15px;
 }
@@ -31,9 +43,15 @@ pre,code {
   font-family: monospace;
 }
 pre, blockquote {
-  background-color: #f5f5f5;
+  /*background-color: #f5f5f5;*/
   width: auto;
   padding: 15px;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f5f5f5+0,ffffff+66,ffffff+66 */
+  background: #f5f5f5; /* Old browsers */
+  background: -moz-linear-gradient(left,  #f5f5f5 0%, #ffffff 66%, #ffffff 66%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left,  #f5f5f5 0%,#ffffff 66%,#ffffff 66%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right,  #f5f5f5 0%,#ffffff 66%,#ffffff 66%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f5f5', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
 }
 pre {
   margin-left: 40px;
@@ -43,6 +61,9 @@ code {
   background-color: #ffffe6;
   border: 1px solid #feefe6;
 }
+footer {
+  height: 100px;
+}
 
   </style>
 </head>
@@ -51,27 +72,35 @@ code {
 
 <h2>Installation</h2>
 <div>
-<strong>tl;dr: Read the README (this file) after installation for launch instructions.</strong>
+<strong>tl;dr: Read the README (this file) after installation for launch
+  instructions.</strong>
 
-<p>The ${project.artifactId} installer will create a <code>${project.artifactId}-${project.version}</code>
- directory in a defined location. You'll have the option of designating a directory for install or accepting the default.</p>
+<p>The ${project.artifactId} installer will create a
+  <code>${project.artifactId}-${project.version}</code>
+ directory in a defined location. You'll have the option of designating a
+ directory for install or accepting the default.</p>
 
 <p>The installer will then perform the following tasks</p>
 
 <ol>
-<li>Install apache-tomcat, a few sql scripts, and the <code>${project.artifactId}-${project.version}.war</code> file</li>
+<li>Install apache-tomcat, a few sql scripts, and the
+  <code>${project.artifactId}-${project.version}.war</code> file</li>
 <li>Explode the war file</li>
-<li>Prompt for apache-tomcat port numbers. (Values other than tomcat defaults are chosen in the likely case a user already has an instance of tomcat running.)</li>
+<li>Prompt for apache-tomcat port numbers. (Values other than tomcat defaults
+  are chosen in the likely case a user already has an instance of tomcat
+  running.)</li>
 <li>Set some property values in config and script files</li>
 <!-- <li>Populate the default YADA index, a SQLite db included in the war</li> -->
-<li>Populate the default YADA index, an HSQLdb file included in the war. (See below for more information about HSQLDB and migrating to other databases.)</li>
+<li>Populate the default YADA index, an HSQLdb file included in the war. (See
+  below for more information about HSQLDB and migrating to other databases.)</li>
 <li>Compress the reconfigured webapp into a new war file (i.e., overwrite it)</li>
 <li>Clean up</li>
 </ol>
 
-<p>Originally the installer launched tomcat, ran a sanity check, and launched the yada-admin tool,
-but this hasn't worked universally. It also maybe is a little presumptuous. You can follow the remaining
-directions to perform these tasks.</p>
+<p>Originally the installer launched tomcat, ran a sanity check, and launched
+  the yada-admin tool, but this hasn't worked universally. It also maybe is a
+  little presumptuous. You can follow the remaining directions to perform these
+  tasks.</p>
 </div>
 <h2>Launch</h2>
 <div>
@@ -79,10 +108,9 @@ directions to perform these tasks.</p>
 
 <h4>Unix, Mac OS X</h4>
 <p>At a command prompt, run <pre>${app.home}/${container}/bin/catalina.sh start</pre></p>
-<p>If you get an error stating <code>CATALINA_HOME</code> is not set, open a terminal and execute:
-<pre>
-export CATALINA_HOME=${app.home}/${container}
-</pre>
+<p>If you get an error stating <code>CATALINA_HOME</code> is not set, open a
+  terminal and execute:
+<pre>export CATALINA_HOME=${app.home}/${container}</pre>
 and try again.
 </p>
 <p>IF <code>JRE_HOME</code> or <code>JAVA_HOME</code> is not set, execute the following in the terminal:
@@ -92,28 +120,34 @@ and try again.
 of course, omitting the <code>/lib/rt.jar</code> and substituting <code>/path/to/j...</code>
 with the <em>actual path</em>.
 </p>
-
+<p>You can verify you have set the environment variable correctly by using the
+  <code>echo</code> command, e.g.,<pre>echo $JAVA_HOME</pre></p>
 
 <h4>Windows</h4>
 <p>At a command prompt, run <pre>${app.home}\${container}\bin\catalina.bat start</pre></p>
-<p>If you get an error stating <code>CATALINA_HOME</code> is not set, open a cmd prompt and execute:
-<pre>
-set "CATALINA_HOME=${app.home}/${container}"
-</pre>
+<p>If you get an error stating <code>CATALINA_HOME</code> is not set, open a
+  cmd prompt and execute:
+<pre>set "CATALINA_HOME=${app.home}/${container}"</pre>
 and try again.
 </p>
-<p>IF <code>JRE_HOME</code> or <code>JAVA_HOME</code> is not set, execute the following at the cmd prompt:
+<p>IF <code>JRE_HOME</code> or <code>JAVA_HOME</code> is not set, execute the
+  following at the cmd prompt:
 <pre>java -verbose|more</pre> and look at the first line which will resemble
 <pre>Opened... \path\to\jre...\lib\rt.jar</pre> then set the variable:
-<pre>set "JAVA_HOME=\path\to\jdk..."</pre> or <pre>set "JRE_HOME=\path\to\jre..."</pre>
-of course, omitting the <code>\lib\rt.jar</code> and substituting <code>\path\to\j...</code>
+<pre>set "JAVA_HOME=\path\to\jdk..."</pre> or
+<pre>set "JRE_HOME=\path\to\jre..."</pre>
+of course, omitting the <code>\lib\rt.jar</code> and substituting
+<code>\path\to\j...</code>
 with the <em>actual path</em>.
 </p>
-
+<p>You can verify you have set the environment variable correctly by using the
+  <code>echo</code> command, e.g.,<pre>echo %JAVA_HOME%</pre></p>
 </div>
+
 <h3>2. Sanity Check</h3>
 <div>
-<p>When tomcat has started successfully, access the following url for a sanity check:
+<p>When tomcat has started successfully, access the following url for a sanity
+  check:
 <a href="http://localhost:${tc.http.port}/${project.artifactId}-${project.version}/yada.jsp?q=YADA+default&pz=1&py=true">http://localhost:${tc.http.port}/${project.artifactId}-${project.version}/yada.jsp?q=YADA+default&amp;pz=1&amp;py=true</a>
 <p>This request should return JSON like the following:
 <pre>
@@ -136,7 +170,8 @@ with the <em>actual path</em>.
 </div>
 <h3>3. yada-admin</h3>
 <div>
-  <p>Assuming this test is successful, you can access the yada-admin tool at the following url:
+  <p>Assuming this test is successful, you can access the yada-admin tool at
+    the following url:
   <a href="http://localhost:${tc.http.port}/${project.artifactId}-${project.version}/yada-admin">http://localhost:${tc.http.port}/${project.artifactId}-${project.version}/yada-admin</a>
   Use
   <ul>
@@ -144,34 +179,46 @@ with the <em>actual path</em>.
     <li>Password: <code>testt</code></li>
   </ul>
 
-  Other provided users and passwords include <code>YADA/yada</code> and <code>YADAUSER/yada</code>.
+  Other provided users and passwords include <code>YADA/yada</code> and
+  <code>YADAUSER/yada</code>.
   </p>
 </div>
 <h2>Notes and Caveats</h2>
 <div>
-Much of this information is redundant to the <a href="https://github.com/Novartis/YADA/tree/master/src/site/markdown">documentation</a> available in the <a href="https://github.com/Novartis/YADA">repository</a>, but selected portions are elaborated here for convenience.
+Much of this information is redundant to the
+<a href="https://github.com/Novartis/YADA/tree/master/src/site/markdown">documentation</a>
+available in the <a href="https://github.com/Novartis/YADA">repository</a>, but
+selected portions are elaborated here for convenience.
 </div>
 <h3>HSQLDB</h3>
 <div>
-<p>HyperSQL, or HSQLDB <a href="http://hsqldb.org/doc/2.0/guide/index.html">documentation</a> is available on their website, <a href="http://hsqldb.org/">hsqldb.org</a>.</p>
-<h4>Some important things to think about with the way HyperSQL is used in YADA-Quickstart:</h4>
+<p>HyperSQL, or HSQLDB
+  <a href="http://hsqldb.org/doc/2.0/guide/index.html">documentation</a>
+  is available on their website, <a href="http://hsqldb.org/">hsqldb.org</a>.
+</p>
+<h4>Some important things to think about with the way HyperSQL is used in
+  YADA-Quickstart:</h4>
 <p>HyperSQL supports <code>file</code>, <code>server</code>, <code>in-memory</code>,
 <code>webserver</code>, <code>resource</code>, and <code>text</code> databases.
 The default db type for YADA-Quickstart is <code>file</code>. From the HyperSQL
 documentation:
-<blockquote>Note that only one Java process at a time can make in-process connections to a given file: database. </blockquote>
+<blockquote>Note that only one Java process at a time can make in-process
+  connections to a given file: database. </blockquote>
 This means that while tomcat is running, you cannot access the database from
-another JVM&mdash;namely, an sqltool, like HyperSQL's own <a href="http://hsqldb.org/doc/2.0/guide/running-chapt.html#rgc_access_tools">DatabaseManagerSwing</a> application.
+another JVM&mdash;namely, an sqltool, like HyperSQL's own
+<a href="http://hsqldb.org/doc/2.0/guide/running-chapt.html#rgc_access_tools">DatabaseManagerSwing</a>
+application.
 </p>
 <p>If you want or need to check out the database tables or data directly using
   the default YADA-Quickstart config, simply shutdown tomcat momentarily with
   the unix command:
   <pre>${app.home}/${container}/bin/catalina.sh stop</pre>
   or windows command: <pre>${app.home}\${container}\bin\catalina.bat stop</pre>
-  Then launch the <a href="http://hsqldb.org/doc/2.0/guide/running-chapt.html#rgc_access_tools">DatabaseManagerSwing</a> application:
+  Then launch the <a href="http://hsqldb.org/doc/2.0/guide/running-chapt.html#rgc_access_tools">DatabaseManagerSwing</a>
+  application:
   <pre>java -cp ${app.home}/${container}/lib/hsqldb.jar org.hsqldb.util.DatabaseManagerSwing</pre>
-<p>One alternative to this is to launch the HyperSQL database as a server. This is a suitable
-  option for a production deployment on a network, but
+<p>One alternative to this is to launch the HyperSQL database as a server. This
+  is a suitable option for a production deployment on a network, but
   it is a bit more involved, and may be overkill for this local, YADA-Quickstart
   implementation.  Nevertheless, there is info in the HyperSQL
   <a href="http://hsqldb.org/doc/2.0/guide/running-chapt.html#rgc_hsql_server">data access</a> and
@@ -180,10 +227,16 @@ another JVM&mdash;namely, an sqltool, like HyperSQL's own <a href="http://hsqldb
 </div>
 <h3>Switching to Other DB engines or adding data sources</h3>
 <div>
-When you add new JDBC data sources in app manager, you need to account for a few settings:
+When you add new JDBC data sources in app manager, you need to account for a few
+settings:
 <ol>
-  <li>Make sure the jar file containing the correct JDBC driver for the database engine is in <code>$TOMCAT_HOME/lib</code>, and restart tomcat after depositing it there.  The tomcat documentation will elaborate on this requirement, but it has to do with the tomcat's use of multiple class loaders.</li>
-  <li>Change the value of the <code>driverClassName</code> property to the appropriate one for your database engine:
+  <li>Make sure the jar file containing the correct JDBC driver for the database
+    engine is in <code>$TOMCAT_HOME/lib</code>, and restart tomcat after
+    depositing it there.  The <a href="https://tomcat.apache.org/tomcat-8.0-doc/jndi-datasource-examples-howto.html">tomcat documentation</a>
+    will elaborate on this requirement, but it has to do with the tomcat's
+    use of multiple class loaders.</li>
+  <li>Change the value of the <code>driverClassName</code> property to the
+    appropriate one for your database engine:
     <ul>
       <li>Oracle: <code>driverClassName=oracle.jdbc.OracleDriver</code></li>
       <li>PostgreSQL: <code>driverClassName=org.postgresql.Driver</code></li>
@@ -195,5 +248,6 @@ When you add new JDBC data sources in app manager, you need to account for a few
   </li>
 </ol>
 </div>
+<footer></footer>
 </body>
 </html>
