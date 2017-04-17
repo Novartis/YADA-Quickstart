@@ -77,6 +77,14 @@
       in default Response structures -->
     <display.version>${project.version}</display.version>
 
+    <!-- 'context.path' -->
+    <!-- Sets the webapp context, i.e., the "path" for the app for
+      tomcat deployment. Defaults to the same value as the 'finalName'.
+      Override this in a command-line or config property, e.g.,
+      '-Dcontext-path=yada-custom'.  This can be useful, for example, to
+      preserve the deployment path across upgrades -->
+    <context.path>${project.artifactId}-${project.version}</context.path>
+
     <!-- 'project.build.sourceEncoding' -->
     <!-- Required to make the build platform independent. Maven will warn
       you about this at the end of the build if it is omitted -->
