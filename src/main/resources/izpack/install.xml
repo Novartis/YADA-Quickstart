@@ -41,8 +41,8 @@
     <res id="userInputSpec.xml" src="@{iz.dir}/userInputSpec.xml"/>
   </resources>
 
-  <jar src="/Applications/IzPack/lib/ant-1.9.4.jar" stage="install"/>
-  <jar src="/Applications/IzPack/lib/ant-launcher-1.9.4.jar" stage="install"/>
+  <jar src="/Applications/IzPack/lib/ant-1.9.9.jar" stage="install"/>
+  <jar src="/Applications/IzPack/lib/ant-launcher-1.9.9.jar" stage="install"/>
 
   <guiprefs width="800" height="403" resizable="yes">
     <laf name="substance">

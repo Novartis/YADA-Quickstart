@@ -13,7 +13,7 @@
     dependencies' versions are configured to equal ${project.version}, so if
     the actual ${project.version} value is changed below, the dependency configs
     will need to be adjusted accordingly. -->
-  <version>8.4.1</version>
+  <version>8.5.0</version>
 
   <packaging>war</packaging>
 
@@ -460,6 +460,7 @@
         <version>2.6</version>
         <configuration>
           <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
           <archive>
             <addMavenDescriptor>false</addMavenDescriptor>
           </archive>
@@ -663,36 +664,36 @@
       <version>1.2.4</version>
       <scope>compile</scope>
     </dependency>
-    <dependency>
+    <!-- <dependency>
       <groupId>com.vertica</groupId>
       <artifactId>vertica-jdbc</artifactId>
       <version>7.1.1-1</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
+    </dependency>-->
+    <!-- <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.31</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
+    </dependency> -->
+    <!-- <dependency>
       <groupId>postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <version>9.2-1002.jdbc4</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
+    </dependency> -->
+    <!-- <dependency>
       <groupId>org.xerial</groupId>
       <artifactId>sqlite-jdbc</artifactId>
       <version>3.8.11.1</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
+    </dependency> -->
+    <!-- <dependency>
       <groupId>com.oracle</groupId>
       <artifactId>ojdbc6</artifactId>
       <version>11.2.0.3</version>
       <scope>test</scope>
-    </dependency>
+    </dependency> -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
